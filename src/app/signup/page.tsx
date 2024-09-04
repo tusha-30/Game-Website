@@ -8,6 +8,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const Signup: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isLoggedIn,setIsLoggedIn]=useState<string>('no');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
@@ -27,7 +28,7 @@ const Signup: React.FC = () => {
     // Store credentials in localStorage
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
-
+localStorage.setItem('loggedIn',"yes");
     toast.success("Signup successful");
     router.push('/login');
   };

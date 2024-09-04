@@ -23,7 +23,8 @@ const Login: React.FC = () => {
     if (username === storedUsername) {
       if (password === storedPassword) {
         // Successful login
-        router.push('/game-store');
+        localStorage.setItem("loggedIn","yes");
+        router.push('/');
       } else {
         toast.error("Wrong password!");
       }

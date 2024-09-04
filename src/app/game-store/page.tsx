@@ -102,7 +102,7 @@ const GameStore: React.FC = () => {
 
   const handleProductClick = (id: number) => {
     // Check if the user is logged in before navigating
-    const isLoggedIn = !!localStorage.getItem('username');
+    const isLoggedIn = localStorage.getItem('loggedIn') === 'yes';
     if (isLoggedIn) {
       router.push(`/game-store/${id}`);
     } else {
