@@ -45,14 +45,14 @@ const GameStore: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
       {products.map((product) => (
         <div
           key={product.id}
           className="border p-4 flex flex-col items-center cursor-pointer"
           onClick={() => handleProductClick(product.id)}
         >
-          <Image src={product.thumbnail} alt={product.title} width={200} height={200} className="object-cover" />
+          <Image src={product.thumbnail} alt={product.title} width={200} height={200} className="object-cover" priority/>
           <h3 className="mt-2 text-center text-lg font-semibold">{product.title}</h3>
           <p className="text-center text-gray-500">${product.price.toFixed(2)}</p>
         </div>
