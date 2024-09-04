@@ -28,10 +28,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onWidthChange }) => {
   return (
     <aside className={`fixed top-0 left-0 h-screen bg-gray-800 text-white transition-width duration-300 ${isOpen ? 'w-64' : 'w-20'} group`} onMouseEnter={() => setIsOpen(true)} onMouseLeave={()=>setIsOpen(false)}>
       <div className="mt-10">
+      <Link href="/" legacyBehavior>
         <div className="flex items-center p-4 hover:bg-gray-700 cursor-pointer" >
           <FaHome className="text-2xl" />
           <span className={`ml-4 text-sm ${isOpen ? 'block' : 'hidden'}`}>Home</span>
         </div>
+        </Link>
         <Link href="/game-store" legacyBehavior>
           <div className="flex items-center p-4 hover:bg-gray-700 cursor-pointer">
             <FaGamepad className="text-2xl" />

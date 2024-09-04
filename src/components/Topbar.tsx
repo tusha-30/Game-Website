@@ -8,27 +8,27 @@ const Topbar: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="sticky flex justify-center top-0 bg-gray-800 text-white p-4 shadow-md z-10 ">
+    <div className="sticky flex justify-center top-0 bg-gray-800 text-white p-4 shadow-md z-10 gap-10">
       <button
         className="flex items-center space-x-2"
         onClick={() => router.push("/")}
       >
         <FaHome />
-        <span>Home Page</span>
+        <span className="whitespace-nowrap">Home </span>
       </button>
       <button
         className="flex items-center space-x-2"
         onClick={() => router.push("/game-store")}
       >
         <FaGamepad />
-        <span>Game Store</span>
+        <span className="whitespace-nowrap">Game Store</span>
       </button>
       <button
         className="flex items-center space-x-2"
         onClick={() => router.push("/leaderboard")}
       >
         <FaChartLine />
-        <span>Leaderboard</span>
+        <span className="whitespace-nowrap">Leaderboard</span>
       </button>
     </div>
   );
