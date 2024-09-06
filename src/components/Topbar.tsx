@@ -47,7 +47,7 @@ const Topbar: React.FC = () => {
 
   return (
     <div className="sticky top-0 bg-[#051c3f] flex justify-between items-center p-4 shadow-md z-10">
-      <div className="flex justify-start md:justify-center text-white gap-2 md:gap-10">
+      <div className="flex  lg:justify-center  text-white  gap-5 md:gap-20 lg:gap-30">
         <button
           className="flex items-center space-x-2"
           onClick={() => router.push("/")}
@@ -71,10 +71,10 @@ const Topbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="text-white flex items-center gap-3 relative">
+      <div className="text-white flex items-center lg:gap-9 md:gap-5 sm:gap-3 gap-3 relative">
         <FaBell onClick={handleBellClick} className="cursor-pointer" />
         {showNotifications && (
-          <div className="absolute top-12 right-0 bg-white text-black p-4 shadow-lg rounded-lg w-80 border border-gray-300">
+          <div className="absolute top-12 right-0 bg-white text-black p-4 shadow-lg rounded-lg w-80 border border-gray-300 ">
             <div className="flex justify-between items-center mb-2">
               <h4 className="text-lg font-semibold">Notifications</h4>
               <FaTimes

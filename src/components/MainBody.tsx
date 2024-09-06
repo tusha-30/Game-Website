@@ -10,7 +10,7 @@ type MainBodyProps = {
 };
 
 const MainBody = ({ children }: MainBodyProps) => {
-  const [sidebarWidth, setSidebarWidth] = useState<number>(80); // Default width
+  const [sidebarWidth, setSidebarWidth] = useState<number>(64); // Default width
 
   // Function to handle sidebar width changes
   const handleSidebarWidthChange = (width: number) => {
