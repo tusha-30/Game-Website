@@ -46,7 +46,7 @@ const Topbar: React.FC = () => {
   };
 
   return (
-    <div className="sticky top-0 bg-gray-800 flex justify-between items-center p-4 shadow-md z-10">
+    <div className="sticky top-0 bg-[#051c3f] flex justify-between items-center p-4 shadow-md z-10">
       <div className="flex justify-start md:justify-center text-white gap-2 md:gap-10">
         <button
           className="flex items-center space-x-2"

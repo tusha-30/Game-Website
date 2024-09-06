@@ -25,7 +25,7 @@ const Signup: React.FC = () => {
       return;
     }
 
-    // Store credentials in localStorage
+
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
 localStorage.setItem('loggedIn',"yes");

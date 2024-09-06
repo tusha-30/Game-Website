@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import ClipLoader from 'react-spinners/ClipLoader';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { FaStar, FaTag, FaShoppingCart } from 'react-icons/fa'; // Icons
 
 interface Product {
@@ -56,14 +56,14 @@ const ProductDetailPage: React.FC = () => {
       <h1 className="text-3xl font-bold text-center mb-6">{product.title}</h1>
       <div className="flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg overflow-hidden">
         <Image
-          src={product.images[0]} // Use the first image from the images array
+          src={product.images[0]} 
           alt={product.title}
           width={400}
           height={400}
           className="object-cover"
 
           
-          priority // Add this line to prioritize the image
+          priority 
         />
         <div className="md:ml-6 p-4 flex flex-col">
           <p className="text-lg text-gray-700 mb-4">{product.description}</p>

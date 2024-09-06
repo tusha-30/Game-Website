@@ -1,10 +1,10 @@
-// pages/game-store.tsx
+
 "use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import ClipLoader from 'react-spinners/ClipLoader';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { FaSearch } from 'react-icons/fa';
 import { BsChevronDown } from 'react-icons/bs';
 import toast from 'react-hot-toast';
@@ -36,7 +36,7 @@ const GameStore: React.FC = () => {
     timeout: 10000,
   });
 
-  // Fetch products on component mount
+ 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -52,7 +52,7 @@ const GameStore: React.FC = () => {
     fetchProducts();
   }, []);
 
-  // Fetch search results whenever searchTerm changes
+
   useEffect(() => {
     const fetchSearchResults = async () => {
       const trimmedSearchTerm = searchTerm.trim();
@@ -80,7 +80,7 @@ const GameStore: React.FC = () => {
     fetchSearchResults();
   }, [searchTerm, products]);
 
-  // Sort products whenever sortOption changes
+
   useEffect(() => {
     const sortProducts = (products: Product[], option: string) => {
       switch (option) {
@@ -101,7 +101,7 @@ const GameStore: React.FC = () => {
   }, [sortOption]);
 
   const handleProductClick = (id: number) => {
-    // Check if the user is logged in before navigating
+   
     const isLoggedIn = localStorage.getItem('loggedIn') === 'yes';
     if (isLoggedIn) {
       router.push(`/game-store/${id}`);
@@ -146,7 +146,7 @@ const GameStore: React.FC = () => {
         </div>
 
         <div className="relative mb-4">
-          <button onClick={toggleDropdown} className="border p-2 w-full flex items-center justify-between bg-yellow-100">
+          <button onClick={toggleDropdown} className="border p-2 w-full flex items-center justify-between bg-[#c3dffe]">
             {sortOption ? sortOption.replace(/([A-Z])/g, ' $1').trim() : 'Sort By'} <BsChevronDown size={20} />
           </button>
           {dropdownOpen && (

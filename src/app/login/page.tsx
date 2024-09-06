@@ -22,7 +22,7 @@ const Login: React.FC = () => {
 
     if (username === storedUsername) {
       if (password === storedPassword) {
-        // Successful login
+     
         localStorage.setItem("loggedIn","yes");
         router.push('/');
       } else {

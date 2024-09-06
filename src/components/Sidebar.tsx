@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onWidthChange }) => {
   }, [isOpen, onWidthChange]);
 
   return (
-    <aside className={`fixed top-0 left-0 h-screen bg-gray-800 text-white transition-width duration-300 ${isOpen ? 'w-64' : 'w-20'} group`} onMouseEnter={() => setIsOpen(true)} onMouseLeave={()=>setIsOpen(false)}>
+    <aside className={`fixed top-0 left-0 h-screen bg-[#051c3f] text-white transition-width duration-300 ${isOpen ? 'w-64' : 'w-20'} group`} onMouseEnter={() => setIsOpen(true)} onMouseLeave={()=>setIsOpen(false)}>
       <div className="mt-10">
       <Link href="/" legacyBehavior>
         <div className="flex items-center p-4 hover:bg-gray-700 cursor-pointer" onClick={()=>setIsOpen(false)}>

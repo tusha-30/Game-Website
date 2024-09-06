@@ -1,8 +1,19 @@
 import React from 'react'
-
+import Image from 'next/image';
 const SettingsPage = () => {
   return (
-    <div>settings</div>
+    <div>
+          <div className="w-full">
+        <Image 
+          src="/images/settings.png" 
+          alt="setting" 
+          layout="responsive" 
+          width={100} 
+          height={50} 
+          className="w-[100vw] object-cover"
+        />
+      </div>
+    </div>
   )
 }
 
