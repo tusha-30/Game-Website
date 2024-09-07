@@ -8,9 +8,9 @@ import { Cards } from "@/components/Cards";
 
 
 const carouselItems = [
-  { id: 1, imageUrl: '/images/pic1.jpg', title: 'Slide 1', body: 'Description for Slide 1' },
-  { id: 2, imageUrl: '/images/pic2.jpg', title: 'Slide 2', body: 'Description for Slide 2' },
-  { id: 3, imageUrl: '/images/pic3.jpg', title: 'Slide 3', body: 'Description for Slide 3' },
+  { id: 1, imageUrl: '/images/COC.jpeg', title: 'Slide 1', body: 'Description for Slide 1' },
+  { id: 2, imageUrl: '/images/COD.jpeg', title: 'Slide 2', body: 'Description for Slide 2' },
+  { id: 3, imageUrl: '/images/PUBG.jpeg', title: 'Slide 3', body: 'Description for Slide 3' },
 
 ];
 const textVariants = {
