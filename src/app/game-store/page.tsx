@@ -39,7 +39,7 @@ const GameStore: React.FC = () => {
   const categories = {
     "Beauty & Fashion": ["beauty", "skin-care", "fragrances", "sunglasses"],
     "Electronics": ["laptops", "tablets", "smartphones"],
-    "Men's Fashion": ["mens-shirt", "mens-shoes", "mens-watches"],
+    "Men's Fashion": ["mens-shirts", "mens-shoes", "mens-watches"],
     "Women's Fashion": ["womens-watches", "womens-shoes", "womens-jewellery", "womens-dresses", "womens-bags", "tops"],
     "Home & Kitchen": ["kitchen-accessories", "home-decoration", "furniture"],
     "Groceries": ["groceries"],
