@@ -1,13 +1,11 @@
-
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import ClipLoader from 'react-spinners/ClipLoader';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
 import Image from "next/legacy/image";
-import { FaSearch } from 'react-icons/fa';
-import { BsChevronDown } from 'react-icons/bs';
-import toast from 'react-hot-toast';
+import { FaSearch } from "react-icons/fa";
+import { BsChevronDown } from "react-icons/bs";
 
 interface Product {
   id: number;
@@ -23,100 +21,154 @@ interface Product {
 const GameStore: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [noMatch, setNoMatch] = useState<boolean>(false);
-  const [sortOption, setSortOption] = useState<string>('');
+  const [sortOption, setSortOption] = useState<string>("Latest");
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+
   const router = useRouter();
 
-  // Axios instance
   const axiosInstance = axios.create({
-    baseURL: 'https://dummyjson.com/',
+    baseURL: "https://dummyjson.com/",
     timeout: 10000,
   });
 
- 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axiosInstance.get('products');
-        setProducts(response.data.products);
-        setSearchResults(response.data.products);
-      } catch (error) {
-        console.error('Failed to fetch products', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
+  const categories = {
+    "Beauty & Fashion": ["beauty", "skin-care", "fragrances", "sunglasses"],
+    "Electronics": ["laptops", "tablets", "smartphones"],
+    "Men's Fashion": ["mens-shirt", "mens-shoes", "mens-watches"],
+    "Women's Fashion": ["womens-watches", "womens-shoes", "womens-jewellery", "womens-dresses", "womens-bags", "tops"],
+    "Home & Kitchen": ["kitchen-accessories", "home-decoration", "furniture"],
+    "Groceries": ["groceries"],
+  };
 
-
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      const trimmedSearchTerm = searchTerm.trim();
-      if (trimmedSearchTerm) {
-        try {
-          const response = await axiosInstance.get(`products/category/${trimmedSearchTerm}`);
-          if (response.data.products && response.data.products.length > 0) {
-            setSearchResults(response.data.products);
-            setNoMatch(false);
-          } else {
-            setSearchResults([]);
-            setNoMatch(true);
-          }
-        } catch (error) {
-          console.error('Failed to fetch search results', error);
-          setSearchResults([]);
-          setNoMatch(true);
-        }
-      } else {
-        setSearchResults(products);
-        setNoMatch(false);
-      }
-    };
-
-    fetchSearchResults();
-  }, [searchTerm, products]);
-
-
-  useEffect(() => {
-    const sortProducts = (products: Product[], option: string) => {
-      switch (option) {
-        case 'PriceLowToHigh':
-          return [...products].sort((a, b) => a.price - b.price);
-        case 'PriceHighToLow':
-          return [...products].sort((a, b) => b.price - a.price);
-        case 'Latest':
-          return [...products].sort((a, b) => new Date(b.meta.createdAt).getTime() - new Date(a.meta.createdAt).getTime());
-        case 'Rating':
-          return [...products].sort((a, b) => b.rating - a.rating);
-        default:
-          return products;
-      }
-    };
-
-    setSearchResults(sortProducts(searchResults, sortOption));
-  }, [sortOption]);
-
-  const handleProductClick = (id: number) => {
-   
-    const isLoggedIn = localStorage.getItem('loggedIn') === 'yes';
-    if (isLoggedIn) {
-      router.push(`/game-store/${id}`);
-    } else {
-      router.push('/login');
+  const fetchProducts = async () => {
+    try {
+      const response = await axiosInstance.get("products");
+      setProducts(response.data.products);
+      setSearchResults(response.data.products);
+      setLoading(false);
+      applySort(response.data.products, sortOption); // Default sorting by latest
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+      setLoading(false);
     }
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(prev => !prev);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      applySort(products, sortOption); 
+    }
+  }, [searchTerm, products, sortOption]);
+
+  const handleSearch = async () => {
+    if (searchTerm.trim()) {
+      try {
+        setSelectedCategories([]);
+        const response = await axiosInstance.get(`products/category/${searchTerm.trim()}`);
+        if (response.data.products.length > 0) {
+          setSearchResults(response.data.products);
+          setNoMatch(false);
+        } else {
+          setSearchResults([]);
+          setNoMatch(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch search results", error);
+        setSearchResults([]);
+        setNoMatch(true);
+      }
+    } else {
+      setSearchResults(products);
+      applySort(products, sortOption); 
+    }
+  };
+
+  const handleCategoryChange = async (category: string) => {
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((cat) => cat !== category)
+      : [...selectedCategories, category];
+
+    setSelectedCategories(updatedCategories);
+
+    if (updatedCategories.length === 0) {
+      setSearchResults(products);
+      applySort(products, sortOption); 
+      return;
+    }
+
+    try {
+      const categoryProducts = await Promise.all(
+        updatedCategories.map((cat) =>
+          axiosInstance.get(`products/category/${cat}`).then((res) => res.data.products)
+        )
+      );
+
+      const mergedProducts = categoryProducts.flat().reduce((unique, product) => {
+        return unique.some((p: Product) => p.id === product.id) ? unique : [...unique, product];
+      }, [] as Product[]);
+      
+
+      setSearchResults(mergedProducts);
+      setNoMatch(mergedProducts.length === 0);
+      applySort(mergedProducts, sortOption); 
+    } catch (error) {
+      console.error("Failed to fetch filtered products", error);
+      setNoMatch(true);
+    }
+  };
+
+  const applySort = (items: Product[], option: string) => {
+    let sortedItems = [...items];
+    switch (option) {
+      case "PriceLowToHigh":
+        sortedItems.sort((a, b) => a.price - b.price);
+        break;
+      case "PriceHighToLow":
+        sortedItems.sort((a, b) => b.price - a.price);
+        break;
+      case "Rating":
+        sortedItems.sort((a, b) => b.rating - a.rating);
+        break;
+      case "Latest":
+      default:
+        sortedItems.sort((a, b) => new Date(b.meta.createdAt).getTime() - new Date(a.meta.createdAt).getTime());
+        break;
+    }
+    setSearchResults(sortedItems);
+  };
+
+
+  const removeFilters = () => {
+    setSelectedCategories([]);
+    setSearchTerm("");
+    setSearchResults(products);
+  
+
+    const sortOptionToApply = sortOption || "Latest";
+    applySort(products, sortOptionToApply);
   };
 
   const handleSortOption = (option: string) => {
     setSortOption(option);
     setDropdownOpen(false);
+    applySort(searchResults, option); 
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
+  const handleProductClick = (id: number) => {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "yes";
+    router.push(isLoggedIn ? `/game-store/${id}` : "/login");
   };
 
   if (loading) {
@@ -128,72 +180,91 @@ const GameStore: React.FC = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex gap-4">
 
-      <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
-        <div className="relative mb-4">
-          <input
-            type="text"
-            placeholder="Search by category"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border p-2 pl-5 w-full"
-          />
-          <FaSearch
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-            size={20}
-          />
-        </div>
+      {/* Filter Sidebar */}
 
-        <div className="relative mb-4">
-          <button onClick={toggleDropdown} className="border p-2 w-full flex items-center justify-between bg-[#c3dffe]">
-            {sortOption ? sortOption.replace(/([A-Z])/g, ' $1').trim() : 'Sort By'} <BsChevronDown size={20} />
-          </button>
-          {dropdownOpen && (
-            <div className="absolute bg-white border mt-2 w-full z-10">
-              <button
-                onClick={() => handleSortOption('PriceLowToHigh')}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-              >
-                Price: Low to High
-              </button>
-              <button
-                onClick={() => handleSortOption('PriceHighToLow')}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-              >
-                Price: High to Low
-              </button>
-              <button
-                onClick={() => handleSortOption('Latest')}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-              >
-                Latest
-              </button>
-              <button
-                onClick={() => handleSortOption('Rating')}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-              >
-                Rating
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {noMatch && <p className="text-red-500 text-center">No category match</p>}
-
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {searchResults.map((product) => (
-          <div
-            key={product.id}
-            className="border p-4 flex flex-col items-center cursor-pointer"
-            onClick={() => handleProductClick(product.id)}
-          >
-            <Image src={product.thumbnail} alt={product.title} width={200} height={200} className="object-cover" priority/>
-            <h3 className="mt-2 text-center text-lg font-semibold">{product.title}</h3>
-            <p className="text-center text-gray-500">${product.price.toFixed(2)}</p>
+      
+      <div className="w-60 bg-white shadow-[4px_0px_8px_0px_rgba(0,0,0,0.1)]">
+        <h3 className="text-lg font-semibold mb-2 mt-1 whitespace-nowrap">Filter by Categories</h3>
+        {Object.entries(categories).map(([group, catArray]) => (
+          <div key={group}>
+            <h4 className="font-semibold">{group}</h4>
+            {catArray.map((category) => (
+              <div key={category} className="flex items-center mb-2">
+                <input
+                  type="checkbox"
+                  id={category}
+                  checked={selectedCategories.includes(category)}
+                  onChange={() => handleCategoryChange(category)}
+                  className="mr-2"
+                />
+                <label htmlFor={category} className="cursor-pointer">{category}</label>
+              </div>
+            ))}
           </div>
         ))}
+        <button onClick={removeFilters} className="mt-4 bg-red-500 text-white px-4 py-2">Remove Filters</button>
+      </div>
+
+      <div className="flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+          <div className="relative mb-4">
+            <input
+              type="text"
+              placeholder="Search by category"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="border p-2 pl-5 w-full"
+            />
+            <FaSearch
+              onClick={handleSearch}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer"
+              size={20}
+            />
+          </div>
+
+          <div className="relative mb-4">
+            <button onClick={toggleDropdown} className="border p-2 w-full flex items-center justify-between bg-[#c3dffe]">
+              {sortOption ? sortOption.replace(/([A-Z])/g, " $1").trim() : "Sort By"} <BsChevronDown size={20} />
+            </button>
+            {dropdownOpen && (
+              <div className="absolute bg-white border mt-2 w-full z-10">
+                <button onClick={() => handleSortOption("PriceLowToHigh")} className="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                  Price: Low to High
+                </button>
+                <button onClick={() => handleSortOption("PriceHighToLow")} className="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                  Price: High to Low
+                </button>
+                <button onClick={() => handleSortOption("Rating")} className="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                  Rating
+                </button>
+                <button onClick={() => handleSortOption("Latest")} className="block w-full text-left px-4 py-2 hover:bg-gray-200">
+                  Latest
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {noMatch ? (
+            <div className="flex flex-col items-center justify-center h-full mt-10 ">
+              <Image src="/images/no-product-found.png" alt="No products found" width={200} height={200} />
+              <p className="mt-4 text-gray-600">No products match your search.</p>
+            </div>
+          ) : (
+            searchResults.map((product) => (
+              <div key={product.id} className="border p-4 cursor-pointer hover:shadow-lg" onClick={() => handleProductClick(product.id)}>
+                <Image src={product.thumbnail} alt={product.title} width={200} height={200} />
+                <h3 className="text-lg font-semibold mt-2">{product.title}</h3>
+                <p className="text-gray-500">${product.price.toFixed(2)}</p>
+                <p className="text-yellow-500">Rating: {product.rating}</p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

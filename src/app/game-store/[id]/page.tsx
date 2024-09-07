@@ -56,7 +56,7 @@ const ProductDetailPage: React.FC = () => {
       <h1 className="text-3xl font-bold text-center mb-6">{product.title}</h1>
       <div className="flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg overflow-hidden">
         <Image
-          src={product.images[0]} 
+          src={product.images[0]||'/images/fallback.jpg'} 
           alt={product.title}
           width={400}
           height={400}

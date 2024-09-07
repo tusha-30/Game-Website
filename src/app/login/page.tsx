@@ -24,6 +24,7 @@ const Login: React.FC = () => {
       if (password === storedPassword) {
      
         localStorage.setItem("loggedIn","yes");
+        toast.success("Logged in successfully!")
         router.push('/');
       } else {
         toast.error("Wrong password!");

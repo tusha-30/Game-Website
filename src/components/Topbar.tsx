@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import { FaHome, FaGamepad, FaChartLine, FaBell, FaUserCircle, FaTimes } from "react-icons/fa";
+import toast from 'react-hot-toast';
 
 const Topbar: React.FC = () => {
   const router = useRouter();
@@ -42,6 +43,7 @@ const Topbar: React.FC = () => {
     localStorage.setItem('loggedIn', 'no'); // Update login status
     setIsLoggedIn(false); // Update state
     setShowAccountMenu(false); // Hide the account menu
+    toast.success("Successfully Logout!")
     router.push('/'); // Redirect to homepage or any other page
   };
 
@@ -74,9 +76,9 @@ const Topbar: React.FC = () => {
       <div className="text-white flex items-center lg:gap-9 md:gap-5 sm:gap-3 gap-3 relative">
         <FaBell onClick={handleBellClick} className="cursor-pointer" />
         {showNotifications && (
-          <div className="absolute top-12 right-0 bg-white text-black p-4 shadow-lg rounded-lg w-80 border border-gray-300 ">
+          <div className="absolute top-12 right-0 bg-white text-black p-[12px] shadow-lg rounded-lg w-[280px] border border-gray-300 ">
             <div className="flex justify-between items-center mb-2">
-              <h4 className="text-lg font-semibold">Notifications</h4>
+              <h4 className="text-lg font-semibold text-[#051c3f]">Notifications</h4>
               <FaTimes
                 onClick={handleCloseNotifications}
                 className="cursor-pointer text-gray-600 hover:text-black"
@@ -88,12 +90,17 @@ const Topbar: React.FC = () => {
         )}
         <FaUserCircle onClick={handleAccountClick} className="cursor-pointer" />
         {showAccountMenu && (
-          <div className="absolute top-12 right-0 bg-white text-black p-4 shadow-lg rounded-lg border border-gray-300">
+          <div className="absolute top-[35px] right-0 bg-white text-black p-[5px] shadow-lg rounded-lg border border-gray-300">
             <div className="flex flex-col">
+
+              <button    className="p-2 text-red-600 hover:text-red-800">
+              <a href='/settings'>Settings</a>  
+              </button>
               {isLoggedIn ? (
                 <button
                   onClick={handleLogoutClick}
                   className="p-2 text-red-600 hover:text-red-800"
+                  
                 >
                   Logout
                 </button>
