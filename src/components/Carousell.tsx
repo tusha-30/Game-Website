@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 
 
 interface CarouselItem  {
@@ -75,10 +76,10 @@ export const Carousell = ({ items, autoPlay = true, interval = 3000 }:CarouselPr
 
       <div className="absolute inset-0 flex justify-between items-center lg:top-[250px] md:top-[200px] top-[120px]">
         <button onClick={handlePrev} className="px-4 py-2 text-white">
-          <FaArrowLeft size={24} />
+          <GrPrevious size={24} />
         </button>
         <button onClick={handleNext} className="px-4 py-2 text-white">
-          <FaArrowRight size={24} />
+        <GrNext size={24}  />
         </button>
       </div>
 

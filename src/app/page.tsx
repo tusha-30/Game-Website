@@ -39,7 +39,7 @@ export default function Home() {
   </div>
 <div className="mt-[70px]">
   <Cards />
-    <GameStore />
+
     </div> 
    
    

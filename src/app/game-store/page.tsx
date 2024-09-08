@@ -6,6 +6,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Image from "next/legacy/image";
 import { FaSearch } from "react-icons/fa";
 import { BsChevronDown } from "react-icons/bs";
+import { Carousell } from "@/components/Carousell";
+
 
 interface Product {
   id: number;
@@ -17,7 +19,12 @@ interface Product {
     createdAt: string;
   };
 }
+const carouselItems = [
+  { id: 1, imageUrl: '/images/COC.jpeg', title: 'Slide 1', body: 'Description for Slide 1' },
+  { id: 2, imageUrl: '/images/COD.jpeg', title: 'Slide 2', body: 'Description for Slide 2' },
+  { id: 3, imageUrl: '/images/PUBG.jpeg', title: 'Slide 3', body: 'Description for Slide 3' },
 
+];
 const GameStore: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -180,7 +187,11 @@ const GameStore: React.FC = () => {
   }
 
   return (
-    <div className="p-2 sm:p-4 flex gap-4">
+    <div className="flex flex-col pt-2 sm:pt-4">
+      <div className=" w-full h-[31vh] sm:h-[35vh] md:h-[46vh] lg:h-[60vh]" >
+     <Carousell items={carouselItems} autoPlay={true} interval={3000} /></div>
+     <div>
+    <div className="p-2 sm:p-4 flex gap-2 sm:gap-4 mt-4">
 
       {/* Filter Sidebar */}
 
@@ -209,7 +220,7 @@ const GameStore: React.FC = () => {
 
       <div className="flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
-          <div className="relative mb-4">
+          <div className="relative mb-1 sm:mb-4">
             <input
               type="text"
               placeholder="Search "
@@ -225,7 +236,7 @@ const GameStore: React.FC = () => {
             />
           </div>
 
-          <div className="relative mb-4">
+          <div className="relative mb-1 sm:mb-4">
             <button onClick={toggleDropdown} className="border p-2 w-full flex items-center justify-between bg-[#c3dffe]">
               {sortOption ? sortOption.replace(/([A-Z])/g, " $1").trim() : "Sort By"} <BsChevronDown size={20} />
             </button>
@@ -248,7 +259,7 @@ const GameStore: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
           {noMatch ? (
             <div className="flex flex-col items-center justify-center h-full mt-10 ">
               <Image src="/images/no-product-found.png" alt="No products found" width={200} height={200} />
@@ -266,6 +277,8 @@ const GameStore: React.FC = () => {
           )}
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
