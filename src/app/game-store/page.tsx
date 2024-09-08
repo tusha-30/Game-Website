@@ -180,13 +180,13 @@ const GameStore: React.FC = () => {
   }
 
   return (
-    <div className="p-4 flex gap-4">
+    <div className="p-2 sm:p-4 flex gap-4">
 
       {/* Filter Sidebar */}
 
       
-      <div className="w-60 bg-white shadow-[4px_0px_8px_0px_rgba(0,0,0,0.1)]">
-        <h3 className="text-lg font-semibold mb-2 mt-1 whitespace-nowrap">Filter by Categories</h3>
+      <div className="w-[50%] sm:w-60 bg-white shadow-[4px_0px_8px_0px_rgba(0,0,0,0.1)]">
+        <h3 className="text-lg font-semibold mb-2 mt-1 ">Filter by Categories</h3>
         {Object.entries(categories).map(([group, catArray]) => (
           <div key={group}>
             <h4 className="font-semibold">{group}</h4>
@@ -212,11 +212,11 @@ const GameStore: React.FC = () => {
           <div className="relative mb-4">
             <input
               type="text"
-              placeholder="Search by category"
+              placeholder="Search "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className="border p-2 pl-5 w-full"
+              className="border p-2 pl-2 sm:pl-5 w-full"
             />
             <FaSearch
               onClick={handleSearch}
@@ -256,9 +256,9 @@ const GameStore: React.FC = () => {
             </div>
           ) : (
             searchResults.map((product) => (
-              <div key={product.id} className="border p-4 cursor-pointer hover:shadow-lg" onClick={() => handleProductClick(product.id)}>
+              <div key={product.id} className="border p-2 sm:p-4 cursor-pointer hover:shadow-lg" onClick={() => handleProductClick(product.id)}>
                 <Image src={product.thumbnail} alt={product.title} width={200} height={200} />
-                <h3 className="text-lg font-semibold mt-2">{product.title}</h3>
+                <h3 className="text-sm sm:text-lg font-semibold mt-0 sm:mt-2">{product.title}</h3>
                 <p className="text-gray-500">${product.price.toFixed(2)}</p>
                 <p className="text-yellow-500">Rating: {product.rating}</p>
               </div>
