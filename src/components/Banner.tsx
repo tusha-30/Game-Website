@@ -5,14 +5,14 @@ import Link from 'next/link';
 
 const banners = [
   {
-    imgSrc: '/images/Banner.jpg',
+    imgSrc: '/images/banner.jpg',
     fallbackSrc: '/images/fallback.jpg',
     title: 'Explore Our Game Store',
     description: 'Discover the latest games and accessories for your favorite platform.',
     link: '/game-store',
   },
   {
-    imgSrc: '/images/Banner2.jpg',
+    imgSrc: '/images/banner2.jpg',
     fallbackSrc: '/images/fallback.jpg',
     title: 'Explore Our Game Store',
     description: 'Discover the latest games and accessories for your favorite platform.',
