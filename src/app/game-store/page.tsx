@@ -7,6 +7,7 @@ import Image from "next/legacy/image";
 import { FaSearch } from "react-icons/fa";
 import { BsChevronDown } from "react-icons/bs";
 import { Carousell } from "@/components/Carousell";
+import Banner from "@/components/Banner";
 
 
 interface Product {
@@ -187,6 +188,7 @@ const GameStore: React.FC = () => {
   }
 
   return (
+    <>
     <div className="flex flex-col pt-2 sm:pt-4">
       <div className=" w-full h-[31vh] sm:h-[35vh] md:h-[46vh] lg:h-[60vh]" >
      <Carousell items={carouselItems} autoPlay={true} interval={3000} /></div>
@@ -280,6 +282,8 @@ const GameStore: React.FC = () => {
     </div>
     </div>
     </div>
+<Banner/>
+    </>
   );
 };
 

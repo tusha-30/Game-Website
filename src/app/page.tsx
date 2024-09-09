@@ -4,6 +4,7 @@ import GameStore from "./game-store/page";
 import { MotionConfig } from "framer-motion";
 import { motion } from "framer-motion"; 
 import { Cards } from "@/components/Cards";
+import Banner from "@/components/Banner";
 
 
 
@@ -37,11 +38,11 @@ export default function Home() {
         </motion.h1>
   <Carousell items={carouselItems} autoPlay={true} interval={3000} />
   </div>
-<div className="mt-[70px]">
+<div className="mt-[70px] mb-[20px]">
   <Cards />
 
     </div> 
-   
+   <Banner/>
    
     </>
   );
