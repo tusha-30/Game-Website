@@ -12,7 +12,7 @@ const Banner: React.FC = () => {
    
       <div className="image-container w-full lg:w-1/2 rounded-lg hover:scale-105 transition-transform duration-300">
         <Image
-          src="/Images/Banner.jpg" 
+          src="/images/Banner.jpg" 
           alt="Banner Image"
           width={500} 
           height={300} 
@@ -39,7 +39,7 @@ const Banner: React.FC = () => {
    
 <div className="image-container w-full lg:w-1/2 rounded-lg hover:scale-105 transition-transform duration-300">
   <Image
-    src="/Images/Banner2.jpg" 
+    src="/images/Banner2.jpg" 
     alt="Banner Image"
     width={500} 
     height={300} 
