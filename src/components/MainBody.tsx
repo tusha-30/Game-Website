@@ -30,8 +30,9 @@ console.log(pathname)
       >
         <Topbar />
         {children}
-        <Footer />
+     
       </main>
+      <Footer />
       {!isGameStorePage && <Sidebar onWidthChange={handleSidebarWidthChange} />}
     </div>
   );

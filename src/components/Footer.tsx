@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <div className="bg-[#051c3f]">
+    <div className="bg-[#051c3f] pl-16">
       <div className="flex flex-col sm:flex-col md:flex-row justify-center items-start mb-4 pt-4 ml-1">
         <span className="mx-2 text-white hover:text-gray-300 hover:scale-110 cursor-pointer">Privacy Notice</span>
         <span className="mx-2 text-white hover:text-gray-300 cursor-pointer hover:scale-110">Terms of Service</span>
